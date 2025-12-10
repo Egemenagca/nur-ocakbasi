@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nur Ocakbaşı | Yönetim Paneli</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --primary: #D32F2F; /* Ocakbaşı Kırmızısı */
+            --warning: #FFC107; /* Düzenle Sarısı */
+            --text: #f5f5f5;
+            --border: #333;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 50px;
+        }
+
+        header {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #b30000, #5c0000);
+            text-align: center;
+            font-size: 24px;
+            font-weight: 800;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            letter-spacing: 1px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h2 { margin-top: 0; color: var(--primary); border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+
+        /* FORM ELEMANLARI */
+        label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #888; }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: #252525;
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: white;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Buton Grubu */
+        .form-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        button.btn-submit {
+            flex: 1;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button.btn-submit:hover { background: #ff4444; }
+
+        button.btn-cancel {
+            padding: 15px;
+            background: #444;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: none; /* Varsayılan olarak gizli */
+        }
+
+        button.btn-cancel:hover { background: #666; }
+
+        /* LİSTE ELEMANLARI */
+        .product-list {
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.03);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .product-info strong { display: block; font-size: 1.1rem; }
+        .product-info span { font-size: 0.85rem; color: #888; }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-action {
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+            font-size: 12px;
+            transition: 0.2s;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .btn-edit {
+            background-color: var(--warning);
+        }
+        .btn-edit:hover { background-color: #ffca2c; }
+
+        .btn-delete {
+            background-color: transparent;
+            border: 1px solid #ff4444;
+            color: #ff4444;
+        }
+        .btn-delete:hover {
+            background-color: #ff4444;
+            color: white;
+        }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<header>NUR OCAKBAŞI | YÖNETİM</header>
+
+<div class="container">
+    
+    <div class="card">
+        <h2 id="formTitle">Yeni Ürün Ekle</h2>
+        <form id="productForm">
+            <input type="hidden" name="id" id="editId">
+
+            <label>Ürün Adı</label>
+            <input type="text" name="name" id="name" placeholder="Örn: Adana Kebap" required>
+
+            <label>Fiyat (TL)</label>
+            <input type="number" name="price" id="price" placeholder="Örn: 450" required>
+
+            <label>Kategori</label>
+            <select name="category" id="category" required>
+                <option value="" disabled selected>Kategori Seçiniz</option>
+                <option value="Porsiyonlar">Porsiyonlar (Ana Yemek)</option>
+                <option value="Dürümler">Dürümler (Kebap)</option>
+                <option value="Döner">Döner ve Diğerleri</option>
+                <option value="Atıştırmalık">Atıştırmalık</option>
+                <option value="İçecekler">İçecekler</option>
+            </select>
+
+            <label>Açıklama (İsteğe bağlı)</label>
+            <textarea name="description" id="description" rows="3" placeholder="Örn: Zırh kıyma, acılı..."></textarea>
+
+            <label>Ürün Fotoğrafı</label>
+            <input type="file" name="image" id="image" accept="image/*">
+            <small style="color:#666; display:none;" id="fileHelpText">*Fotoğrafı değiştirmek istemiyorsanız boş bırakın.</small>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit" id="submitBtn">ÜRÜNÜ KAYDET</button>
+                <button type="button" class="btn-cancel" id="cancelBtn" onclick="resetForm()">İPTAL</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Menü Listesi</h2>
+        <div id="productList" class="product-list">
+            <p style="color:#666; text-align:center;">Yükleniyor...</p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const form = document.getElementById("productForm");
+    const listContainer = document.getElementById("productList");
+    const submitBtn = document.getElementById("submitBtn");
+    const cancelBtn = document.getElementById("cancelBtn");
+    const formTitle = document.getElementById("formTitle");
+    const editIdInput = document.getElementById("editId");
+    const fileHelpText = document.getElementById("fileHelpText");
+    const imageInput = document.getElementById("image");
+
+    let allProducts = []; // Tüm ürünleri burada tutacağız
+
+    // 1. FORM SUBMIT (EKLEME ve GÜNCELLEME)
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        
+        const isEditing = editIdInput.value !== ""; // ID varsa düzenleme modundayız
+        const formData = new FormData(form);
+        
+        // Düzenleme modunda resim seçilmediyse backend hata vermemeli,
+        // Backend tarafında dosya yoksa eski resmi koruyan bir yapı olmalı.
+        
+        submitBtn.textContent = "İşleniyor...";
+        submitBtn.disabled = true;
+
+        try {
+            let url = "/api/products";
+            let method = "POST";
+
+            if (isEditing) {
+                url = `/api/products/${editIdInput.value}`;
+                method = "PUT"; // Backend PUT destekliyorsa
+            }
+
+            const res = await fetch(url, {
+                method: method,
+                body: formData
+            });
+
+            if (res.ok) {
+                resetForm(); // Formu temizle
+                loadProducts(); // Listeyi yenile
+                alert(isEditing ? "✅ Ürün güncellendi!" : "✅ Ürün eklendi!");
+            } else {
+                const err = await res.json();
+                alert("Hata: " + (err.error || "İşlem başarısız"));
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Sunucu hatası!");
+        } finally {
+            submitBtn.textContent = isEditing ? "GÜNCELLE" : "ÜRÜNÜ KAYDET";
+            submitBtn.disabled = false;
+        }
+    });
+
+    // 2. LİSTELEME
+    async function loadProducts() {
+        try {
+            const res = await fetch("/api/products");
+            allProducts = await res.json(); // Veriyi global değişkene at
+
+            listContainer.innerHTML = "";
+
+            if (allProducts.length === 0) {
+                listContainer.innerHTML = "<p style='text-align:center; color:#666;'>Henüz ürün eklenmemiş.</p>";
+                return;
+            }
+
+            allProducts.forEach(p => {
+                const item = document.createElement("div");
+                item.className = "product-item";
+                
+                item.innerHTML = `
+                    <div class="product-info">
+                        <strong>${p.name} (${p.price} TL)</strong>
+                        <span>${p.category}</span>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn-action btn-edit" onclick="editProduct('${p._id}')">DÜZENLE</button>
+                        <button class="btn-action btn-delete" onclick="deleteProduct('${p._id}')">SİL</button>
+                    </div>
+                `;
+                listContainer.appendChild(item);
+            });
+
+        } catch (error) {
+            console.error(error);
+            listContainer.innerHTML = "<p style='text-align:center; color:red;'>Veriler yüklenemedi.</p>";
+        }
+    }
+
+    // 3. DÜZENLEME FONKSİYONU
+    function editProduct(id) {
+        const product = allProducts.find(p => p._id === id);
+        if (!product) return;
+
+        // Formu doldur
+        document.getElementById("editId").value = product._id;
+        document.getElementById("name").value = product.name;
+        document.getElementById("price").value = product.price;
+        document.getElementById("category").value = product.category;
+        document.getElementById("description").value = product.description || "";
+        
+        // görsel ipucu
+        formTitle.textContent = "Ürünü Düzenle: " + product.name;
+        submitBtn.textContent = "GÜNCELLE";
+        cancelBtn.style.display = "block"; // İptal butonunu göster
+        fileHelpText.style.display = "block"; // Resim uyarısını göster
+
+        // Sayfayı yukarı kaydır
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 4. SİLME FONKSİYONU
+    async function deleteProduct(id) {
+        if (!confirm("Bu ürünü silmek istediğinize emin misiniz?")) return;
+
+        try {
+            const res = await fetch(`/api/products/${id}`, { method: "DELETE" });
+            if (res.ok) {
+                alert("Ürün silindi.");
+                loadProducts();
+            } else {
+                alert("Silme başarısız.");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Hata oluştu.");
+        }
+    }
+
+    // 5. FORMU SIFIRLA
+    function resetForm() {
+        form.reset();
+        document.getElementById("editId").value = "";
+        formTitle.textContent = "Yeni Ürün Ekle";
+        submitBtn.textContent = "ÜRÜNÜ KAYDET";
+        cancelBtn.style.display = "none";
+        fileHelpText.style.display = "none";
+    }
+
+    // Sayfa açılınca listeyi yükle
+    loadProducts();
+</script>
+</body>
+</html>

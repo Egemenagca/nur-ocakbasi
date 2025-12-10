@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nur Ocakbaşı | Menü</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&family=Rubik:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0f0f0f;
+            --bg-card: #1a1a1a;
+            --primary: #c62828;
+            /* Kebap Kırmızısı */
+            --accent: #ffb74d;
+            /* Köz Sarısı */
+            --text-main: #ffffff;
+            --text-sub: #b0b0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Rubik', sans-serif;
+            padding-bottom: 80px;
+            /* Alt buton için boşluk */
+        }
+
+        /* --- HEADER (LOGO ALANI) --- */
+        header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('https://images.unsplash.com/photo-1594041680534-e8c8cdebd659?q=80&w=1000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-bottom: 4px solid var(--primary);
+            position: relative;
+        }
+
+        header h1 {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        header p {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 4px;
+            margin-top: 5px;
+        }
+
+        /* --- STICKY NAVIGATION (KATEGORİLER) --- */
+        .nav-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #333;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .category-nav {
+            display: flex;
+            overflow-x: auto;
+            padding: 15px 10px;
+            gap: 10px;
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        .category-nav::-webkit-scrollbar {
+            display: none;
+            /* Chrome */
+        }
+
+        .cat-btn {
+            background: transparent;
+            border: 1px solid #444;
+            color: var(--text-sub);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: 0.3s ease;
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .cat-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(198, 40, 40, 0.4);
+        }
+
+        /* --- MENU CONTAINER --- */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 15px;
+        }
+
+        .category-section {
+            margin-bottom: 40px;
+            scroll-margin-top: 140px;
+            /* Nav barın altında kalmaması için */
+        }
+
+        .category-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.6rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary);
+            padding-left: 10px;
+            text-transform: uppercase;
+        }
+
+        /* --- ÜRÜN KARTI --- */
+        .menu-item {
+            display: flex;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border: 1px solid #252525;
+            transition: transform 0.2s;
+        }
+
+        .menu-item:active {
+            transform: scale(0.98);
+        }
+
+        .item-img {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            background-color: #000;
+        }
+
+        .item-info {
+            flex: 1;
+            padding: 12px 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+
+        .item-name {
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .item-price {
+            color: var(--primary);
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-left: 10px;
+            white-space: nowrap;
+        }
+
+        .item-desc {
+            font-size: 0.8rem;
+            color: #888;
+            line-height: 1.4;
+            display: -webkit-box;
+
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+
+        /* LOADING ANIMASYONU */
+        #loader {
+            text-align: center;
+            padding: 50px;
+            color: #555;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>NUR OCAKBAŞI</h1>
+        <p>LEZZETİN ZİRVESİ</p>
+    </header>
+
+    <div class="nav-wrapper">
+        <nav class="category-nav" id="categoryNav">
+        </nav>
+    </div>
+
+    <div class="container" id="menuContainer">
+        <div id="loader">
+            <div class="spinner"></div>
+            <p>MENÜ YÜKLENİYOR...</p>
+        </div>
+    </div>
+
+
+    <script>
+        // Kategorilerin sıralaması (Menüde hangi sırayla görüneceği)
+        const categoryOrder = [
+            "Porsiyonlar",
+            "Dürümler",
+            "Döner",
+            "Atıştırmalık",
+            "İçecekler"
+        ];
+
+        async function initMenu() {
+            const navContainer = document.getElementById('categoryNav');
+            const menuContainer = document.getElementById('menuContainer');
+
+            try {
+                // 1. Verileri Çek
+                const res = await fetch('/api/products');
+                if (!res.ok) throw new Error("Veri çekilemedi");
+
+                const products = await res.json();
+
+                // 2. Verileri Kategorilere Böl
+                const grouped = {};
+                products.forEach(p => {
+                    if (!grouped[p.category]) grouped[p.category] = [];
+                    grouped[p.category].push(p);
+                });
+
+                // Yükleniyor ekranını kaldır
+                menuContainer.innerHTML = '';
+
+                // 3. Sıralı Şekilde Ekrana Bas
+                let isFirst = true;
+
+                categoryOrder.forEach(catName => {
+                    if (grouped[catName] && grouped[catName].length > 0) {
+
+                        // A) Nav Butonu Ekle
+                        const btn = document.createElement('button');
+                        btn.className = `cat-btn ${isFirst ? 'active' : ''}`;
+                        btn.innerText = catName;
+                        btn.onclick = () => scrollToCategory(catName);
+                        navContainer.appendChild(btn);
+
+                        // B) Kategori Bölümü Oluştur
+                        const section = document.createElement('div');
+                        section.className = 'category-section';
+                        section.id = `sec-${catName}`; // Scroll için ID
+
+                        // Başlık
+                        section.innerHTML = `<h2 class="category-title">${catName}</h2>`;
+
+                        // Ürünleri Listele
+                        grouped[catName].forEach(item => {
+                            // Resim yoksa varsayılan resim kullan
+                            const imgUrl = item.imageUrl || 'https://via.placeholder.com/150?text=Nur+Ocakbasi';
+
+                            section.innerHTML += `
+                            <div class="menu-item">
+                                <img src="${imgUrl}" class="item-img" onerror="this.src='https://via.placeholder.com/150?text=Resim+Yok'">
+                                <div class="item-info">
+                                    <div class="item-header">
+                                        <div class="item-name">${item.name}</div>
+                                        <div class="item-price">${item.price} ₺</div>
+                                    </div>
+                                    <div class="item-desc">${item.description || ''}</div>
+                                </div>
+                            </div>
+                        `;
+                        });
+
+                        menuContainer.appendChild(section);
+                        isFirst = false;
+                    }
+                });
+
+            } catch (error) {
+                console.error(error);
+                menuContainer.innerHTML = '<p style="text-align:center; padding:20px;">Menü yüklenirken hata oluştu.</p>';
+            }
+        }
+
+        // --- Scroll İşlemleri ---
+        function scrollToCategory(catName) {
+            const el = document.getElementById(`sec-${catName}`);
+            if (el) {
+                const y = el.getBoundingClientRect().top + window.pageYOffset - 130;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+        }
+
+        // Scroll değiştikçe üstteki butonları aktif yap
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.category-section');
+            const navBtns = document.querySelectorAll('.cat-btn');
+
+            let current = '';
+            sections.forEach(sec => {
+                const sectionTop = sec.offsetTop;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = sec.getAttribute('id').replace('sec-', '');
+                }
+            });
+
+            navBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.innerText === current) {
+                    btn.classList.add('active');
+                    // Aktif butonu görünür alana kaydır
+                    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                }
+            });
+        });
+
+
+        // Başlat
+        initMenu();
+    </script>
+
+</body>
+
+</html>
