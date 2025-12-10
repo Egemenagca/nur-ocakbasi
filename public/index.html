@@ -230,6 +230,33 @@
                 transform: rotate(360deg);
             }
         }
+
+        /* Admin Button */
+        .admin-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2000;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .admin-btn:hover {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 0 10px var(--primary);
+            opacity: 1;
+        }
     </style>
 </head>
 
@@ -252,6 +279,10 @@
         </div>
     </div>
 
+    <!-- Admin Giriş Butonu -->
+    <button class="admin-btn" onclick="adminLogin()">
+        <i class="fa-solid fa-lock"></i>
+    </button>
 
     <script>
         // Kategorilerin sıralaması (Menüde hangi sırayla görüneceği)
@@ -369,7 +400,18 @@
 
 
         // Başlat
+        // Başlat
         initMenu();
+
+        // Admin Girişi
+        function adminLogin() {
+            const pass = prompt("Yönetici Şifresi:");
+            if (pass === "nur2727") {
+                window.location.href = "/admin";
+            } else if (pass !== null && pass.trim() !== "") {
+                alert("Hatalı şifre!");
+            }
+        }
     </script>
 
 </body>
